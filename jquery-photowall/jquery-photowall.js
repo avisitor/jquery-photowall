@@ -265,7 +265,7 @@ var PhotoWall = {
                     w += (PhotoWall._c_width-space-num_photos*PhotoWall.options.padding*2)-l;
                 }
                 
-				t = addImage(line[k].id,PhotoWall.options.padding,w,h,line[k].img,line[k].th.src,null,null,line[k].th.desc); 
+				t = addImage(line[k].id,PhotoWall.options.padding,w,h,line[k].img,line[k].th.src,null,null,line[k].th.desc);
 				ln.append(t);
 			}
 			return t;
@@ -645,7 +645,11 @@ var ShowBox = {
         });
     },
     _addThumb: function(gal,im,i,desc) {
+<<<<<<< HEAD
     	$('<div class="showbox-th"><img src="'+im+'" title="'+escapeHtml(desc)+'" /></div>')
+=======
+		$('<div class="showbox-th"><img src="'+im+'" title="'+escapeHtml(desc)+'" /></div>')
+>>>>>>> f4c83a2c88be7f6bc80163524e758ec19d4ea717
         .appendTo('#showbox-thc'+gal+' .showbox-th-container').find('img').load(function(){
             var w = $(this).width();
             var h = $(this).height();
@@ -740,10 +744,10 @@ var ShowBox = {
 		$('#showbox-menubar'+ShowBox._current).css({position:'absolute',top:'-10000px'}).detach().appendTo('body');
     },
     KEYPRESSED: function(e) {
-        if(e.keyCode==27) {
+        if(e.keyCode==27 || e.keyCode==13) {
             ShowBox.EXIT();
         }
-        if(e.keyCode==39) {
+        if(e.keyCode==39 || e.keyCode==32) {
             ShowBox._next();
         }
         if(e.keyCode==37) {

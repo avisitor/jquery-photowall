@@ -1,3 +1,19 @@
+.nav-button {
+ 	width: 20px; 
+	height: 20px; 
+    position:absolute;
+    top:50%;
+}
+#next-button {
+    right:2em;
+}
+#prev-button {
+    left:2em;
+    -ms-transform: rotate(180deg); /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}
+
 div.pw-photo {
 
 }

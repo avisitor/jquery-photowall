@@ -103,6 +103,22 @@ if ( !jQuery.browser ) {
 	jQuery.browser = browser;
 }
 
+// Find the location of this script so icon locations do not have to be managed
+function getScriptLocation() {
+	var scripts = document.getElementsByTagName('script'),
+    	len = scripts.length,
+    	re = /jquery-photowall\.js$/,
+    	src;
+	while (len--) {
+  		src = scripts[len].src;
+		if (src && src.match(re)) {
+		   var el = document.createElement('a');
+		   el.href = src;
+		   return el.pathname.substr(0, el.pathname.lastIndexOf('/')+1);
+		}
+	}
+	return '';
+}
 /*
     TODO: Add screen size check on zoom.
 */
@@ -136,9 +152,11 @@ var PhotoWall = {
         ,zoomImageBorder:5
         ,showBoxPadding: 2
         ,showBoxSocial: true
+		,nextButton:'white-right.png'
     },
 	
 	init: function(op) {	
+		PhotoWall.options.nextButton = getScriptLocation() + PhotoWall.options.nextButton;
 	    PhotoWall.options = $.extend(PhotoWall.options,op);
         PhotoWall.options.baseScreenHeight = $(window).height();
 		PhotoWall._el = op.el+' .body';
@@ -265,6 +283,9 @@ var PhotoWall = {
                     w += (PhotoWall._c_width-space-num_photos*PhotoWall.options.padding*2)-l;
                 }
                 
+				if(line[k].th.desc == undefined) {
+					line[k].th.desc = '';
+				}
 				t = addImage(line[k].id,PhotoWall.options.padding,w,h,line[k].img,line[k].th.src,null,null,line[k].th.desc);
 				ln.append(t);
 			}
@@ -532,6 +553,8 @@ var ShowBox = {
                 '<div id="showbox" style="display:none;">'
                 +'    <div id="showbox-exit">Back to the gallery</div>'
                 +'    <div class="showbox-menubar unselect" unselectable="on" style="display:none !important;"></div>'
+                +'    <img id="next-button" class="nav-button"  src="' + PhotoWall.options.nextButton + '" />'
+                +'    <img id="prev-button" class="nav-button"  src="' + PhotoWall.options.nextButton + '" />'
                 +'    <div class="showbox-image unselect" unselectable="on">'
                 +'    <p class="showbox-desc select" unselectable="off"></p>'
                 +'    </div>'
@@ -600,6 +623,18 @@ var ShowBox = {
             $(window).resize(function(){
                 ShowBox.RESIZE(this);
             });
+            $('#showbox').mouseenter(function(){
+				$('.nav-button').animate({"opacity":1},{duration:500});
+            });
+            $('#showbox').mouseleave(function(){
+				$('.nav-button').animate({"opacity":0},{duration:500});
+            });
+            $('#next-button').click(function(){
+				ShowBox._next();
+			});
+            $('#prev-button').click(function(){
+				ShowBox._prev();
+			});
         }
     },
     _parseGet: function() {

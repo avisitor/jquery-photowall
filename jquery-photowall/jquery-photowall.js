@@ -535,6 +535,8 @@ var ShowBox = {
                 '<div id="showbox" style="display:none;">'
                 +'    <div id="showbox-exit">Back to the gallery</div>'
                 +'    <div class="showbox-menubar unselect" unselectable="on" style="display:none !important;"></div>'
+                +'    <a id="prev-button" class="nav-button" href="javascript:ShowBox._prev();">❰</a>'
+                +'    <a id="next-button" class="nav-button" href="javascript:ShowBox._next();">❱</a>'
                 +'    <div class="showbox-image unselect" unselectable="on">'
                 +'    <p class="showbox-desc select" unselectable="off"></p>'
                 +'    </div>'
@@ -602,6 +604,12 @@ var ShowBox = {
             });
             $(window).resize(function(){
                 ShowBox.RESIZE(this);
+            });
+            $('#showbox').mouseenter(function(){
+				$('.nav-button').animate({"opacity":1},{duration:500});
+            });
+            $('#showbox').mouseleave(function(){
+				$('.nav-button').animate({"opacity":0},{duration:500});
             });
         }
     },
@@ -743,10 +751,10 @@ var ShowBox = {
 		$('#showbox-menubar'+ShowBox._current).css({position:'absolute',top:'-10000px'}).detach().appendTo('body');
     },
     KEYPRESSED: function(e) {
-        if(e.keyCode==27) {
+        if(e.keyCode==27 || e.keyCode==13) {
             ShowBox.EXIT();
         }
-        if(e.keyCode==39) {
+        if(e.keyCode==39 || e.keyCode==32) {
             ShowBox._next();
         }
         if(e.keyCode==37) {
